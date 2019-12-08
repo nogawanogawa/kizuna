@@ -1,0 +1,80 @@
+version: "3"
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: keyword
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - ./data/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./data/mysql/conf.d:/etc/mysql/conf.d
+      - ./data/mysql/db:/var/lib/mysql
+    networks:
+      - esnet
+
+  elasticsearch:
+    build: env/elasticsearch
+    environment:
+      - node.name=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    expose:
+      - 9300
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.5.0
+    links:
+      - elasticsearch
+    ports:
+      - 5601:5601
+    networks:
+      - esnet
+
+  neo4j:
+    image: neo4j:latest
+    ports:
+      - 7474:7474
+      - 7473:7473
+      - 7687:7687
+    volumes:
+      - ./data/neo4j/data:/data
+      - ./data/neo4j/logs:/logs
+      - ./data/neo4j/conf:/conf
+    networks:
+      - esnet
+
+  server:
+    build: server
+    command: "flask run --host=0.0.0.0 --port=5000"
+    volumes:
+      - ./server/src:/home/src
+      - ./server/test:/home/test
+    links:
+      - elasticsearch
+      - neo4j
+      - mysql
+    ports:
+      - 5000:5000
+    networks:
+      - esnet
+
+networks:
+  esnet:
