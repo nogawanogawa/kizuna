@@ -14,7 +14,6 @@ new Vue({
   render: h => h(App),
   el: '#app',
   vuetify,
-  //  firebase,
   router,
   store,
   data: {}

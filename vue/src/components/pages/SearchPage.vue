@@ -7,10 +7,17 @@
           <v-container fluid grid-list-lg pa-2>
             <v-layout justify-center>
               <v-flex xs6>
-              <v-text-field v-model="search_word" outlined label="search"></v-text-field>
+                <v-text-field
+                  v-model="search_word"
+                  outlined
+                  label="search"
+                  append-icon="search"
+                  @click:append="redirect(search_word)"
+                  @keydown.enter="redirect(search_word)"
+                ></v-text-field>
               </v-flex>
             </v-layout>
-             <v-divider></v-divider>
+            <v-divider></v-divider>
             <v-layout>
               <v-flex xs12>
                 <ItemBoard v-bind:items="items" />
@@ -33,11 +40,23 @@ export default {
     Sidebar,
     ItemBoard
   },
+  methods:{
+    redirect(word){
+      this.$router.push({
+        path: this.path + "?" + "key=" + (word != null ? word : "")
+      });
+      this.$router.go({
+        path: "",
+        force: true
+      })
+    }
+  },
   props: {
     source: String
   },
   data: () => ({
-    search_word: ""
+    search_word: "",
+    path: "/Search"
   }),
   created() {}
 };
