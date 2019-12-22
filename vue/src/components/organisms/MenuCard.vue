@@ -1,11 +1,13 @@
 <template>
-  <v-card :color="property.color" dark @click="click">
-    <v-card-title>
-      <v-icon x-large>{{property.icon}}</v-icon>
-      {{property.title}}
-    </v-card-title>
-    <v-container>{{property.text}}</v-container>
-  </v-card>
+  <v-flex xs6 >
+    <v-card :color="property.color" dark @click="click">
+      <v-card-title>
+        <v-icon x-large>{{property.icon}}</v-icon>
+        {{property.title}}
+      </v-card-title>
+      <v-container>{{property.text}}</v-container>
+    </v-card>
+  </v-flex>
 </template>
 
 <script>
@@ -23,7 +25,4 @@ export default {
 </script>
 
 <style scoped>
-.v-input__slider {
-  width: 100%;
-}
 </style>

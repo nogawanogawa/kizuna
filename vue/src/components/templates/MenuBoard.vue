@@ -1,11 +1,14 @@
 <template>
   <v-container>
+    <p class="headline">Document</p>
     <v-layout>
-      <v-flex xs6 v-for="item in items" :key="item">
-        <MenuCard v-bind:property="item" />
-      </v-flex>
+      <MenuCard v-for="item in document" :key="item" v-bind:property="item" />
     </v-layout>
 
+    <p class="headline">Word</p>
+    <v-layout>
+      <MenuCard v-for="item in word" :key="item" v-bind:property="item" />
+    </v-layout>
   </v-container>
 </template>
 
@@ -18,13 +21,13 @@ export default {
     MenuCard
   },
   data: () => ({
-    items: [
+    document: [
       {
         title: "DashBoard",
         text: "登録内容の分析",
         color: "deep-purple",
         icon: "bar_chart",
-        route: "/Search"
+        route: "/Analysis"
       },
       {
         title: "Register",
@@ -39,6 +42,15 @@ export default {
         color: "primary",
         icon: "search",
         route: "/Search"
+      }
+    ],
+    word: [
+      {
+        title: "Keyword",
+        text: "単語の操作",
+        color: "deep-purple",
+        icon: "text_fields",
+        route: "/Keyword"
       }
     ]
   })
