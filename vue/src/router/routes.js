@@ -3,6 +3,8 @@ import RegisterPage from "@/components/pages/RegisterPage.vue"
 import SearchPage from "@/components/pages/SearchPage.vue"
 import DetailPage from "@/components/pages/DetailPage.vue"
 import UpdatePage from "@/components/pages/UpdatePage.vue"
+import AnalysisPage from "@/components/pages/AnalysisPage.vue"
+import KeywordPage from "@/components/pages/KeywordPage.vue"
 
 export default [{
     path: '/',
@@ -22,6 +24,12 @@ export default [{
 }, {
     path: '/Update',
     component: UpdatePage
+}, {
+    path: '/Analysis',
+    component: AnalysisPage
+}, {
+    path: '/Keyword',
+    component: KeywordPage
 }, {
     path: '*',
     redirect: '/'
